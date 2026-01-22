@@ -1,11 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CardModule } from 'primeng/card';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { Button } from 'primeng/button';
+import { AuthService } from '../../../services/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+    CardModule,
+    FloatLabelModule,
+    InputTextModule,
+    PasswordModule,
+    Button,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class Login {
+  private readonly _fb = inject(FormBuilder);
+  private readonly _authService = inject(AuthService);
+  private readonly _router = inject(Router);
 
+  login = new FormControl('', [Validators.required]);
+  password = new FormControl('', [Validators.required]);
+
+  loginForm = this._fb.group({
+    login: this.login,
+    password: this.password,
+  });
+
+  async onSubmit() {
+    if (this.loginForm.valid) {
+      try {
+        await this._authService.login(this.loginForm.value.login!, this.loginForm.value.password!);
+        this._router.navigate(['/']);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
 }

@@ -1,6 +1,6 @@
 <div class="flex justify-content-center">
     <p-card class="m-4 w-auto" header="Register Form">
-        <form [formGroup]="registerForm">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <p-floatlabel class="m-2" variant="on">
                 <input pInputText class="w-full" type="text" id="username" autocomplete="off" [formControl]="username">
                 <label for="username">Username</label>
@@ -13,6 +13,7 @@
                 <p-password class="w-full" inputId="password" [toggleMask]="true" [formControl]="password" />
                 <label for="password">Password</label>
             </p-floatlabel>
+            <p-button class="flex justify-content-center" [raised]="true" label="Register" type="submit"></p-button>
         </form>
     </p-card>
 </div>

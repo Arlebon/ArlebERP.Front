@@ -1,1 +1,15 @@
-<p>login works!</p>
+<div class="flex justify-content-center">
+    <p-card class="m-4 w-auto" header="Login Form">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <p-floatlabel class="m-2" variant="on">
+                <input pInputText class="w-full" id="login" type="text" autocomplete="off" [formControl]="login">
+                <label for="login">Username or email</label>
+            </p-floatlabel>
+            <p-floatlabel class="m-2" variant="on">
+                <p-password class="w-full" inputId="password" [feedback]="false" [toggleMask]="true" [formControl]="password"/>
+                <label for="password">Password</label>
+            </p-floatlabel>
+            <p-button class="flex justify-content-center" [disabled]="loginForm.invalid" [raised]="true" label="Login" type="submit"></p-button>
+        </form>
+    </p-card>
+</div>
