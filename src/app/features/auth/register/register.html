@@ -1,0 +1,18 @@
+<div class="flex justify-content-center">
+    <p-card class="m-4 w-auto" header="Register Form">
+        <form [formGroup]="registerForm">
+            <p-floatlabel class="m-2" variant="on">
+                <input pInputText class="w-full" type="text" id="username" autocomplete="off" [formControl]="username">
+                <label for="username">Username</label>
+            </p-floatlabel>
+            <p-floatlabel class="m-2" variant="on">
+                <input pInputText class="w-full" type="email" id="email" autocomplete="off" [formControl]="email">
+                <label for="email">Email</label>
+            </p-floatlabel>
+            <p-floatlabel class="m-2" variant="on">
+                <p-password class="w-full" inputId="password" [toggleMask]="true" [formControl]="password" />
+                <label for="password">Password</label>
+            </p-floatlabel>
+        </form>
+    </p-card>
+</div>
