@@ -7,6 +7,7 @@ import { PasswordModule } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { AuthService } from '../../../services/auth-service';
 import { Router } from '@angular/router';
+import { LoadingModal } from '../../../components/common/loading-modal/loading-modal';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
     InputTextModule,
     PasswordModule,
     Button,
+    LoadingModal,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
@@ -25,6 +27,8 @@ export class Login {
   private readonly _fb = inject(FormBuilder);
   private readonly _authService = inject(AuthService);
   private readonly _router = inject(Router);
+
+  isLoading: boolean = false;
 
   login = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
@@ -37,9 +41,12 @@ export class Login {
   async onSubmit() {
     if (this.loginForm.valid) {
       try {
+        this.isLoading = true;
         await this._authService.login(this.loginForm.value.login!, this.loginForm.value.password!);
+        this.isLoading = false;
         this._router.navigate(['/']);
       } catch (err) {
+        this.isLoading = false;
         console.error(err);
       }
     }

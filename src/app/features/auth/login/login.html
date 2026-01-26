@@ -1,5 +1,5 @@
 <div class="flex justify-content-center">
-    <p-card class="m-4 w-auto" header="Login Form">
+    <p-card class="m-4 w-auto flex" header="Login Form">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <p-floatlabel class="m-2" variant="on">
                 <input pInputText class="w-full" id="login" type="text" autocomplete="off" [formControl]="login">
@@ -13,3 +13,6 @@
         </form>
     </p-card>
 </div>
+@if(isLoading) {
+    <app-loading-modal />
+}
