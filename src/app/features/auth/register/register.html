@@ -5,19 +5,36 @@
                 <input pInputText class="w-full" type="text" id="username" autocomplete="off" [formControl]="username">
                 <label for="username">Username</label>
             </p-floatlabel>
+            @if(username.touched && username.getError('required')) {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">Username required</p-message>
+            }
             <p-floatlabel class="m-2" variant="on">
                 <input pInputText class="w-full" type="email" id="email" autocomplete="off" [formControl]="email">
                 <label for="email">Email</label>
             </p-floatlabel>
+            @if(email.touched) {
+                @if(email.getError('required')) {
+                    <p-message class="ml-3" severity="error" variant="simple" size="small">Email required</p-message>
+                }
+                @if(email.getError('email')) {
+                    <p-message class="ml-3" severity="error" variant="simple" size="small">Email must be valid</p-message>
+                }
+            }
             <p-floatlabel class="m-2" variant="on">
                 <p-password class="w-full" inputId="password" [toggleMask]="true" [formControl]="password" />
                 <label for="password">Password</label>
             </p-floatlabel>
-            <p-button class="flex justify-content-center" [raised]="true" label="Register" type="submit"></p-button>
+            @if(password.touched && password.getError('required')) {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">Password required</p-message>
+            }
+            @if(registerError() != '') {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">{{ registerError() }}</p-message>
+            }
+            <p-button class="flex justify-content-center mt-2" [disabled]="registerForm.invalid" [raised]="true" label="Register" type="submit"></p-button>
         </form>
     </p-card>
 </div>
 
-@if(isLoading) {
+@if(isLoading()) {
     <app-loading-modal />
 }

@@ -5,14 +5,23 @@
                 <input pInputText class="w-full" id="login" type="text" autocomplete="off" [formControl]="login">
                 <label for="login">Username or email</label>
             </p-floatlabel>
+            @if(login.touched && login.getError('required')) {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">Login required</p-message>
+            }
             <p-floatlabel class="m-2" variant="on">
                 <p-password class="w-full" inputId="password" [feedback]="false" [toggleMask]="true" [formControl]="password"/>
                 <label for="password">Password</label>
             </p-floatlabel>
-            <p-button class="flex justify-content-center" [disabled]="loginForm.invalid" [raised]="true" label="Login" type="submit"></p-button>
+            @if(password.touched && password.getError('required')) {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">Password required</p-message>
+            }
+            @if(loginError() != '') {
+                <p-message class="ml-3" severity="error" variant="simple" size="small">{{ loginError() }}</p-message>
+            }
+            <p-button class="flex justify-content-center mt-2" [disabled]="loginForm.invalid" [raised]="true" label="Login" type="submit"></p-button>
         </form>
     </p-card>
 </div>
-@if(isLoading) {
+@if(isLoading()) {
     <app-loading-modal />
 }

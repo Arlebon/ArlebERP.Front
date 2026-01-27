@@ -13,12 +13,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       switch (error.status) {
         case 500:
+        case 502:
         case 0:
           router.navigate(['/', 'error', '500']);
           break;
       }
 
-      const errorMessage = error.error.error;
+      const errorMessage = error.error?.error || error.error?.content || error.error?.message;
 
       return throwError(() => new ApiError(errorMessage));
     }),

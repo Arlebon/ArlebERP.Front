@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -8,6 +8,7 @@ import { Button } from 'primeng/button';
 import { AuthService } from '../../../services/auth-service';
 import { Router } from '@angular/router';
 import { LoadingModal } from '../../../components/common/loading-modal/loading-modal';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { LoadingModal } from '../../../components/common/loading-modal/loading-m
     FloatLabelModule,
     InputTextModule,
     PasswordModule,
+    MessageModule,
     Button,
     LoadingModal,
   ],
@@ -28,7 +30,7 @@ export class Login {
   private readonly _authService = inject(AuthService);
   private readonly _router = inject(Router);
 
-  isLoading: boolean = false;
+  isLoading = signal<boolean>(false);
 
   login = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
@@ -38,16 +40,19 @@ export class Login {
     password: this.password,
   });
 
+  loginError = signal<string>('');
+
   async onSubmit() {
     if (this.loginForm.valid) {
       try {
-        this.isLoading = true;
+        this.isLoading.set(true);
         await this._authService.login(this.loginForm.value.login!, this.loginForm.value.password!);
-        this.isLoading = false;
+        this.isLoading.set(false);
         this._router.navigate(['/']);
-      } catch (err) {
-        this.isLoading = false;
+      } catch (err: any) {
+        this.isLoading.set(false);
         console.error(err);
+        this.loginError.set(err.message);
       }
     }
   }
