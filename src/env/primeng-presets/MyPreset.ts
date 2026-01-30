@@ -17,4 +17,27 @@ export const MyPreset = definePreset(Aura, {
       950: '{sky.950}',
     },
   },
+  components: {
+    menu: {
+      root: {
+        background: '{primary-200}',
+        borderColor: '{primary-300}',
+        borderRadius: '0',
+      },
+      item: {
+        color: '{primary-900}',
+        focusBackground: '{primary-500}',
+        icon: {
+          color: '{primary-900}',
+          focusColor: '{primary-900}',
+        },
+      },
+    },
+    drawer: {
+      root: {
+        background: '{primary-100}',
+        borderColor: '{primary-100}',
+      },
+    },
+  },
 });
